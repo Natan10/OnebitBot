@@ -19,3 +19,17 @@ configure :test do
       host: 'postgres'
     }
   end
+
+
+  configure :production do
+    db = URI.parse(ENV['DATABASE_URL'] || 'postgres:///postgres/bot_production')
+   
+    set :database, {
+      adapter:  'postgresql',
+      host:     db.host,
+      username: db.user,
+      password: db.password,
+      database: db.path[1..-1],
+      encoding: 'utf8'
+    }
+  end
